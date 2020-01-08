@@ -13,9 +13,19 @@ public class Menu {
     int c = 400;
     int d = 100;
     int counter = 1;
+    boolean canPress;
 
-    public Menu(PApplet pApplet){
+    public boolean isCanPress() {
+        return canPress;
+    }
+
+    public void setCanPress(boolean canPress) {
+        this.canPress = canPress;
+    }
+
+    public Menu(PApplet pApplet, boolean canPress){
         this.pApplet = pApplet;
+        this.canPress = canPress;
 
     }
     public void displayMenu(ArrayList<String> values){
@@ -24,12 +34,23 @@ public class Menu {
 
 
             if((a < pApplet.mouseX && a +c > pApplet.mouseX) &&
-                b < pApplet.mouseY && b + d > pApplet.mouseY)
+                b * counter < pApplet.mouseY && b * counter + d > pApplet.mouseY)
             {
-                pApplet.fill(255, 255, 255, 255);
-                pApplet.rect(a, b * counter, c, d);
+               // if(counter == 2) {
+                    pApplet.fill(255, 255, 255, 255);
+
+                    pApplet.rect(a, b * counter, c, d);
+               // }
+                //System.out.println(canPress);
+                if(pApplet.mousePressed && canPress) {
+                    canPress = false;
+                System.out.println("dwadawda");
+                chooseMenu(msg);
+                }
+
             }else {
-                pApplet.fill(50, 50, 50);
+                pApplet.fill(200, 50, 50);
+                pApplet.rect(a, b * counter, c, d);
             }
             pApplet.fill(70,0,0,255);
             pApplet.text(msg, a + a/2,b * counter +b /2);
@@ -40,6 +61,21 @@ public class Menu {
         }
 
 
+    }
+
+    public void chooseMenu(String value){
+
+        switch (value){
+
+            case "Spiel Starten":
+                System.out.println("Starten");
+                break;
+            case "Einstellungen":
+                System.out.println("Einstellungen");
+                break;
+            case "Quit":
+                break;
+        }
     }
 
 }

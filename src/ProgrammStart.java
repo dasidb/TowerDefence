@@ -2,7 +2,6 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import java.util.Map;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,8 +20,9 @@ public class ProgrammStart extends PApplet {
     TowerSlot towerSlot;
     Menu menu;
     String assetPath = "C:\\Users\\lukas.kapust\\Downloads\\TowerDefence\\Assets\\";
-    boolean toogleMenu;
+    boolean toogleMenu = true;
     ArrayList<String> testArrayList;
+    boolean canPress = true;
 
     public static void main(String[] args) {
         PApplet.main(ProgrammStart.class, args);
@@ -38,7 +38,7 @@ public class ProgrammStart extends PApplet {
 
     public void setup() {
         super.setup();
-        menu = new Menu(this);
+        menu = new Menu(this, canPress);
 
         loadAssets();
         loadObjects();
@@ -52,7 +52,7 @@ public class ProgrammStart extends PApplet {
 
     public void draw() {
         clear();
-        if(!toogleMenu) {
+        if(toogleMenu) {
             menu.displayMenu(testArrayList);
         }else {
             background(mapBackground);
@@ -101,6 +101,13 @@ public class ProgrammStart extends PApplet {
         }
 
     }
+    @Override
+    public void mouseReleased(){
+        if(toogleMenu) {
+            menu.setCanPress(true);
+        }
+    }
+
 
     public void enemyMovements() {
         for (Enemy enemy : enemyArrayList) {
