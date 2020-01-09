@@ -1,10 +1,12 @@
 import processing.core.PApplet;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 
 public class Menu {
 
-    boolean toogleMenu;
+
+
     float cordX;
     float cordY;
     PApplet pApplet;
@@ -15,22 +17,38 @@ public class Menu {
     int counter = 1;
     boolean canPress;
 
+
     public boolean isCanPress() {
         return canPress;
     }
 
+
     public void setCanPress(boolean canPress) {
         this.canPress = canPress;
     }
+    public Menu(int a, int b , int c , int d, int counter){
+        this.a = a;
+        this.b = b;
+        this.c = c;
+        this.d = d;
+        this.counter = counter;
+    }
+    public Menu(){
 
+    }
     public Menu(PApplet pApplet, boolean canPress){
         this.pApplet = pApplet;
         this.canPress = canPress;
 
     }
-    public void displayMenu(ArrayList<String> values){
-        for(String msg : values) {
+
+    // TODO: 1/9/2020 make the MenuOption display the menu and change it to subclass try start with displaymenu choose one
+
+    public boolean displayMenu(ArrayList<MenuOptions> values){
+        boolean toogleMenu = true;
+        for(Enum msg : values) {
             counter ++;
+            System.out.println(values);
 
 
             if((a < pApplet.mouseX && a +c > pApplet.mouseX) &&
@@ -45,7 +63,7 @@ public class Menu {
                 if(pApplet.mousePressed && canPress) {
                     canPress = false;
                 System.out.println("dwadawda");
-                chooseMenu(msg);
+                toogleMenu = chooseMenu((MenuOptions) msg, toogleMenu);
                 }
 
             }else {
@@ -53,29 +71,35 @@ public class Menu {
                 pApplet.rect(a, b * counter, c, d);
             }
             pApplet.fill(70,0,0,255);
-            pApplet.text(msg, a + a/2,b * counter +b /2);
+            pApplet.text(msg.name(), a + a/2,b * counter +b /2);
 
             if(counter > values.size()){
                 counter = 1;
             }
+
         }
 
-
+    return toogleMenu;
     }
 
-    public void chooseMenu(String value){
+    public boolean chooseMenu(MenuOptions value, Boolean toogleMenu){
+        Menu menu;
 
         switch (value){
 
-            case "Spiel Starten":
+            case Spiel_Starten:
                 System.out.println("Starten");
-                break;
-            case "Einstellungen":
+                toogleMenu = false;
+                return toogleMenu;
+            case Einstellungen:
                 System.out.println("Einstellungen");
+
+            menu = new OptionMenu(pApplet);
                 break;
-            case "Quit":
+            case Quit:
                 break;
         }
+        return true;
     }
 
 }

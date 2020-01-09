@@ -21,7 +21,7 @@ public class ProgrammStart extends PApplet {
     Menu menu;
     String assetPath = "C:\\Users\\lukas.kapust\\Downloads\\TowerDefence\\Assets\\";
     boolean toogleMenu = true;
-    ArrayList<String> testArrayList;
+    ArrayList<MenuOptions> testArrayList;
     boolean canPress = true;
 
     public static void main(String[] args) {
@@ -43,9 +43,14 @@ public class ProgrammStart extends PApplet {
         loadAssets();
         loadObjects();
     testArrayList = new ArrayList<>();
-    testArrayList.add("Spiel Starten");
-        testArrayList.add("Einstellungen");
-        testArrayList.add("Quit");
+
+    testArrayList.add(MenuOptions.Spiel_Starten);
+        testArrayList.add(MenuOptions.Einstellungen);
+        testArrayList.add(MenuOptions.Quit);
+
+    //testArrayList.add("Spiel Starten");
+      //  testArrayList.add("Einstellungen");
+       // testArrayList.add("Quit");
 
 
     }
@@ -53,7 +58,7 @@ public class ProgrammStart extends PApplet {
     public void draw() {
         clear();
         if(toogleMenu) {
-            menu.displayMenu(testArrayList);
+           // toogleMenu = menu.displayMenu(testArrayList);
         }else {
             background(mapBackground);
             drawEnemy();
@@ -130,7 +135,11 @@ public class ProgrammStart extends PApplet {
 
     }
 
-    public void checkCollisions() {
+    public void checkCollisions(){
+        checkCollisionTower();
+    }
+// checks collision with the tower/towerslots
+    public void checkCollisionTower() {
         for (Map.Entry<String, Tower> entry : towerHashMap.entrySet()) {
             if((mouseX - entry.getValue().posX < 180 || mouseX - entry.getValue().posX < -50 )&&
                     (mouseY - entry.getValue().posY < 85 || mouseY - entry.getValue().posY < -50) && mousePressed
@@ -138,6 +147,24 @@ public class ProgrammStart extends PApplet {
                 System.out.println("pog");
                 entry.getValue().collisionCheck(entry.getValue(), mouseX, mouseY);
             }
+        }
+    }
+
+    public void keyPressed(){
+       // if(keyCode == ESC){
+           // System.out.println("juhudmkwadmkaw");
+        if(key==27) {
+            key = 0;
+
+        }
+       // }
+    }
+    public void keyReleased(){
+        if(key==27) {
+            System.out.println("juhudmkwadmkaw");
+            toogleMenu = menu.displayMenu(testArrayList);
+            menu.setCanPress(true);
+            toogleMenu = true;
         }
     }
 }
