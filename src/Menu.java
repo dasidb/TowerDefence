@@ -1,5 +1,6 @@
 import processing.core.PApplet;
 
+import javax.rmi.ssl.SslRMIClientSocketFactory;
 import javax.swing.text.html.Option;
 import java.util.ArrayList;
 
@@ -16,7 +17,30 @@ public class Menu {
     int d = 100;
     int counter = 1;
     boolean canPress;
+    ArrayList<MenuOptions> optionsArrayList;
+    Menu menu;
+    boolean toogleMenu = true;
 
+    public Menu getMenu(){
+
+        return menu;
+    }
+    public ArrayList<MenuOptions> getOptionsArrayList(){
+        if(optionsArrayList == null) {
+            optionsArrayList = new ArrayList<>();
+            optionsArrayList.add(MenuOptions.Spiel_Starten);
+            optionsArrayList.add(MenuOptions.Einstellungen);
+            optionsArrayList.add(MenuOptions.Quit);
+        }
+
+        return optionsArrayList;
+    }
+
+    public void setMenu(Menu menu){
+
+        this.menu = menu;
+
+    }
 
     public boolean isCanPress() {
         return canPress;
@@ -42,13 +66,14 @@ public class Menu {
 
     }
 
-    // TODO: 1/9/2020 make the MenuOption display the menu and change it to subclass try start with displaymenu choose one
+    // TODO: 1/10/2020 fill menu usage (Screensize etc) exchange Spiel starten with continue  
 
     public boolean displayMenu(ArrayList<MenuOptions> values){
-        boolean toogleMenu = true;
+    toogleMenu = true;
+
         for(Enum msg : values) {
             counter ++;
-            System.out.println(values);
+
 
 
             if((a < pApplet.mouseX && a +c > pApplet.mouseX) &&
@@ -59,11 +84,12 @@ public class Menu {
 
                     pApplet.rect(a, b * counter, c, d);
                // }
-                //System.out.println(canPress);
+
                 if(pApplet.mousePressed && canPress) {
                     canPress = false;
-                System.out.println("dwadawda");
-                toogleMenu = chooseMenu((MenuOptions) msg, toogleMenu);
+
+               toogleMenu =  chooseMenu((MenuOptions) msg);
+
                 }
 
             }else {
@@ -78,28 +104,48 @@ public class Menu {
             }
 
         }
-
     return toogleMenu;
+
     }
 
-    public boolean chooseMenu(MenuOptions value, Boolean toogleMenu){
-        Menu menu;
+    public Menu changeMenu(Menu menu){
+
+        this.menu = menu;
+
+        return menu;
+    }
+
+    public boolean chooseMenu(MenuOptions value){
+
 
         switch (value){
 
             case Spiel_Starten:
                 System.out.println("Starten");
                 toogleMenu = false;
+
                 return toogleMenu;
             case Einstellungen:
                 System.out.println("Einstellungen");
-
-            menu = new OptionMenu(pApplet);
+            setMenu(new OptionMenu(pApplet));
+            //menu = changeMenu(new OptionMenu(pApplet));
+            //menu = new OptionMenu(pApplet);
+                System.out.println(menu + " rückgabe");
                 break;
             case Quit:
+
+              // if(this instanceof StartMenu){
+                //   System.out.println("menu");
+                //}else{
+                  // setMenu(new OptionMenu(pApplet));
+                   setMenu(new StartMenu(pApplet,true));
+                   System.out.println("kommt an");
+               //}
+
                 break;
         }
-        return true;
+
+    return true;
     }
 
 }

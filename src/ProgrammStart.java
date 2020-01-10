@@ -38,8 +38,9 @@ public class ProgrammStart extends PApplet {
 
     public void setup() {
         super.setup();
-        menu = new Menu(this, canPress);
-
+        menu = new StartMenu(this, canPress);
+        System.out.println(menu);
+        menu.setMenu(menu);
         loadAssets();
         loadObjects();
     testArrayList = new ArrayList<>();
@@ -59,6 +60,14 @@ public class ProgrammStart extends PApplet {
         clear();
         if(toogleMenu) {
            // toogleMenu = menu.displayMenu(testArrayList);
+
+            menu = menu.getMenu();
+
+            toogleMenu = menu.displayMenu(menu.getOptionsArrayList());
+            System.out.println(menu);
+
+
+
         }else {
             background(mapBackground);
             drawEnemy();
@@ -66,6 +75,7 @@ public class ProgrammStart extends PApplet {
             checkCollisions();
 
         }
+
 
     }
 
@@ -124,10 +134,10 @@ public class ProgrammStart extends PApplet {
         for (Enemy enemy : enemyArrayList) {
             image(enemy.getImg(), enemy.getCordX(), enemy.getCordY());
         }
-        System.out.println(towerHashMap.get("slot1").posX);
+
         //towerHashMap.forEach((key,value) -> image(value.img,value.posX,value.posY));
         for (Map.Entry<String, Tower> entry : towerHashMap.entrySet()) {
-            System.out.println(entry.getValue().posX);
+
 
 
             image(entry.getValue().img, entry.getValue().posX, entry.getValue().posY);
@@ -144,7 +154,7 @@ public class ProgrammStart extends PApplet {
             if((mouseX - entry.getValue().posX < 180 || mouseX - entry.getValue().posX < -50 )&&
                     (mouseY - entry.getValue().posY < 85 || mouseY - entry.getValue().posY < -50) && mousePressed
             ) {
-                System.out.println("pog");
+
                 entry.getValue().collisionCheck(entry.getValue(), mouseX, mouseY);
             }
         }
@@ -152,7 +162,7 @@ public class ProgrammStart extends PApplet {
 
     public void keyPressed(){
        // if(keyCode == ESC){
-           // System.out.println("juhudmkwadmkaw");
+
         if(key==27) {
             key = 0;
 
@@ -161,8 +171,8 @@ public class ProgrammStart extends PApplet {
     }
     public void keyReleased(){
         if(key==27) {
-            System.out.println("juhudmkwadmkaw");
-            toogleMenu = menu.displayMenu(testArrayList);
+
+            //menu.displayMenu(testArrayList);
             menu.setCanPress(true);
             toogleMenu = true;
         }
