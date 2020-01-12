@@ -19,7 +19,7 @@ public class ProgrammStart extends PApplet {
     Enemy enemy;
     TowerSlot towerSlot;
     Menu menu;
-    String assetPath = "C:\\Users\\lukas.kapust\\Downloads\\TowerDefence\\Assets\\";
+    String assetPath = "\\Assets\\";
     boolean toogleMenu = true;
     ArrayList<MenuOptions> testArrayList;
     boolean canPress = true;
