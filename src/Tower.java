@@ -36,5 +36,19 @@ public class Tower {
 
         return true;
     }
+
+    // TODO: 12.01.2020 kreisgleichung x^2 + y^2 = r^2
+    // r^2 range of tower x^2 y^2 distance tower -> enemy
+    public void checkEnemyCollision(float enemyPosX, float enemyPosY){
+        if( Math.sqrt(Math.pow((enemyPosX - posX),2) + Math.pow((enemyPosY- posY),2)) <= range){
+            shoot();
+        }
+
+    }
+    public void shoot(){
+        if(3 < 2){
+
+        }
+    }
 }
 
