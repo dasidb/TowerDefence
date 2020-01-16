@@ -1,5 +1,7 @@
+import processing.core.PApplet;
 import processing.core.PImage;
 
+import java.awt.print.Paper;
 import java.util.ArrayList;
 
 public class Enemy {
@@ -17,15 +19,17 @@ public class Enemy {
     boolean test = true;
     int wave = 1;
     int life = 3 + wave;
+    ProgrammStart programmStart;
 
 
-    public Enemy(PImage img, float cordX, float cordY, int wave){
+    public Enemy(PImage img, float cordX, float cordY, int wave, ProgrammStart programmStart){
         this.img = img;
         this.cordX = cordX;
         this.cordY = cordY;
         this.wave = wave;
         this.life = 3 + wave;
         moveRight = true;
+        this.programmStart = programmStart;
 
 
     }
@@ -94,7 +98,7 @@ public class Enemy {
                     maxMovement -= increment *2;
                     //smallerRadiusMovement += increment *2;
                     //System.out.println(maxMovement);
-                    System.out.println(smallerRadiusMovement);
+
                 }
 
                 moveRight = true;
@@ -103,8 +107,11 @@ public class Enemy {
         }
 
         if(life >0 && smallerRadiusMovement == 490){
-            System.out.println("-1 HP");
+
             life = 0;
+            programmStart.setLife(programmStart.getLife()-1);
+            System.out.println(programmStart.getLife());
+
 
         }
     }

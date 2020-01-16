@@ -24,6 +24,15 @@ public class ProgrammStart extends PApplet {
     ArrayList<MenuOptions> testArrayList;
     boolean canPress = true;
     int wave = 1;
+    int life = 200;
+
+    public int getLife() {
+        return life;
+    }
+
+    public void setLife(int life) {
+        this.life = life;
+    }
 
     public static void main(String[] args) {
         PApplet.main(ProgrammStart.class, args);
@@ -118,8 +127,8 @@ public class ProgrammStart extends PApplet {
 
     public void loadEnemys(int waveCount){
         enemyArrayList = new ArrayList<>();
-        for (int i = 0; i < 1; i++) {
-            enemy = new Enemy(destination, 0 + (-i * 90), 0,waveCount);
+        for (int i = 0; i < 20; i++) {
+            enemy = new Enemy(destination, 0 + (-i * 90), 0,waveCount, this);
             enemyArrayList.add(enemy);
 
         }

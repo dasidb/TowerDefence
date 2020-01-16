@@ -1,12 +1,12 @@
 public class Test {
 
-    int x = 2;
-    double y = 17;
+    int x = 2;      //x Enemy
+    double y = 17;  //y Enemy
 
 
-    int mx = 3;
-    int my = 2;
-    int radius = 3;
+    int mx = 3; // towerX
+    int my = 2; // towerY
+    int radius = 3; // range Tower
 
     double ergebnis = Math.sqrt(Math.pow((mx - x),2) + Math.pow((my- y),2));
     double ergebni2 = Math.sqrt(Math.pow((x - mx),2) + Math.pow((y- my),2));
