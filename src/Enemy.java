@@ -15,15 +15,16 @@ public class Enemy {
     int increment = 80;
     int smallerRadiusMovement = 40;
     boolean test = true;
-    int life = 3;
+    int wave = 1;
+    int life = 3 + wave;
 
 
-
-
-    public Enemy(PImage img, float cordX, float cordY){
+    public Enemy(PImage img, float cordX, float cordY, int wave){
         this.img = img;
         this.cordX = cordX;
         this.cordY = cordY;
+        this.wave = wave;
+        this.life = 3 + wave;
         moveRight = true;
 
 
@@ -92,13 +93,19 @@ public class Enemy {
                 if (!moveRight) {
                     maxMovement -= increment *2;
                     //smallerRadiusMovement += increment *2;
-                    System.out.println(maxMovement);
+                    //System.out.println(maxMovement);
                     System.out.println(smallerRadiusMovement);
                 }
 
                 moveRight = true;
 
             }
+        }
+
+        if(life >0 && smallerRadiusMovement == 490){
+            System.out.println("-1 HP");
+            life = 0;
+
         }
     }
     public void moveRight(){

@@ -23,6 +23,7 @@ public class ProgrammStart extends PApplet {
     boolean toogleMenu = true;
     ArrayList<MenuOptions> testArrayList;
     boolean canPress = true;
+    int wave = 1;
 
     public static void main(String[] args) {
         PApplet.main(ProgrammStart.class, args);
@@ -38,9 +39,11 @@ public class ProgrammStart extends PApplet {
 
     public void setup() {
         super.setup();
-        menu = new StartMenu(this, canPress);
-        System.out.println(menu);
-        menu.setMenu(menu);
+        frame.setResizable(true);
+
+        menu = new Menu(this);
+
+
         loadAssets();
         loadObjects();
     testArrayList = new ArrayList<>();
@@ -58,21 +61,30 @@ public class ProgrammStart extends PApplet {
 
     public void draw() {
         clear();
-        if(toogleMenu) {
+
+        if(menu.isToogleMenu1()) {
            // toogleMenu = menu.displayMenu(testArrayList);
+           // if(menu.getChange()) {
 
-            menu = menu.getMenu();
+               // menu = menu.getMenu();
+               menu.chooseMenu();
+                //System.out.println(menu.getMenu());
 
-            toogleMenu = menu.displayMenu(menu.getOptionsArrayList());
-            System.out.println(menu);
+
+               // menu.setChange(false);
+          //  }
+          //  toogleMenu = menu.displayMenu(menu.getOptionsArrayList());
+
+
+
 
 
 
         }else {
             background(mapBackground);
-            drawEnemy();
-            enemyMovements();
-            checkCollisions();
+            enemyMain();
+            towerMain();
+
 
         }
 
@@ -104,12 +116,17 @@ public class ProgrammStart extends PApplet {
 
     }
 
-    public void loadObjects() {
-        for (int i = 0; i < 20; i++) {
-            enemy = new Enemy(destination, 0 + (-i * 90), 0);
+    public void loadEnemys(int waveCount){
+        enemyArrayList = new ArrayList<>();
+        for (int i = 0; i < 1; i++) {
+            enemy = new Enemy(destination, 0 + (-i * 90), 0,waveCount);
             enemyArrayList.add(enemy);
 
         }
+        wave ++;
+    }
+    public void loadObjects() {
+
         for (int i = 0; i < 3; i++) {
             towerSlot = new TowerSlot(towerSlotImg, 240* i, 100);
             towerHashMap.put("slot" + i, towerSlot);
@@ -132,6 +149,7 @@ public class ProgrammStart extends PApplet {
 
     public void drawEnemy() {
         for (Enemy enemy : enemyArrayList) {
+            if(enemy.life != 0 )
             image(enemy.getImg(), enemy.getCordX(), enemy.getCordY());
         }
 
@@ -165,16 +183,28 @@ public class ProgrammStart extends PApplet {
 
         if(key==27) {
             key = 0;
-
+            loadEnemys(1);
         }
+
        // }
     }
     public void keyReleased(){
         if(key==27) {
 
             //menu.displayMenu(testArrayList);
-            menu.setCanPress(true);
+           // menu.setCanPress(true);
             toogleMenu = true;
         }
+    }
+
+    public void enemyMain(){
+
+        drawEnemy();
+        enemyMovements();
+
+    }
+
+    public void towerMain(){
+        checkCollisions();
     }
 }

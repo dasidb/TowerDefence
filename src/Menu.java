@@ -1,151 +1,123 @@
 import processing.core.PApplet;
 
-import javax.rmi.ssl.SslRMIClientSocketFactory;
 import javax.swing.text.html.Option;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Menu {
 
-
-
-    float cordX;
-    float cordY;
+    HashMap<String,Menu> menuHashMap;
+    float posX = 100;
+    float posY = 100;
+    float boxSize = 600;
+    ArrayList<MenuOptions> menuOptionsArrayList;
     PApplet pApplet;
-    int a = 100;
-    int b = 100;
-    int c = 400;
-    int d = 100;
-    int counter = 1;
-    boolean canPress;
-    ArrayList<MenuOptions> optionsArrayList;
-    Menu menu;
-    boolean toogleMenu = true;
+    String menuType = "Start_Menu";
+    boolean canPress = true;
+    boolean toogleMenu1 = true;
 
-    public Menu getMenu(){
 
-        return menu;
-    }
-    public ArrayList<MenuOptions> getOptionsArrayList(){
-        if(optionsArrayList == null) {
-            optionsArrayList = new ArrayList<>();
-            optionsArrayList.add(MenuOptions.Spiel_Starten);
-            optionsArrayList.add(MenuOptions.Einstellungen);
-            optionsArrayList.add(MenuOptions.Quit);
-        }
 
-        return optionsArrayList;
+    public boolean isToogleMenu1(){
+        return this.toogleMenu1;
     }
 
-    public void setMenu(Menu menu){
-
-        this.menu = menu;
-
+    public void setToogleMenu1(boolean toogleMenu1){
+        this.toogleMenu1 = toogleMenu1;
     }
 
-    public boolean isCanPress() {
-        return canPress;
-    }
-
-
-    public void setCanPress(boolean canPress) {
+    public void setCanPress(boolean canPress){
         this.canPress = canPress;
     }
-    public Menu(int a, int b , int c , int d, int counter){
-        this.a = a;
-        this.b = b;
-        this.c = c;
-        this.d = d;
-        this.counter = counter;
-    }
+
     public Menu(){
 
     }
-    public Menu(PApplet pApplet, boolean canPress){
+
+
+    public Menu(PApplet pApplet){
         this.pApplet = pApplet;
-        this.canPress = canPress;
+
+        menuHashMap = new HashMap<>();
+        menuHashMap.put("Start_Menu", new StartMenu());
+    }
+
+    public void fillOptions(){
+        menuOptionsArrayList = new ArrayList<>();
 
     }
 
-    // TODO: 1/10/2020 fill menu usage (Screensize etc) exchange Spiel starten with continue  
-
-    public boolean displayMenu(ArrayList<MenuOptions> values){
-    toogleMenu = true;
-
-        for(Enum msg : values) {
-            counter ++;
-
-
-
-            if((a < pApplet.mouseX && a +c > pApplet.mouseX) &&
-                b * counter < pApplet.mouseY && b * counter + d > pApplet.mouseY)
-            {
-               // if(counter == 2) {
-                    pApplet.fill(255, 255, 255, 255);
-
-                    pApplet.rect(a, b * counter, c, d);
-               // }
-
-                if(pApplet.mousePressed && canPress) {
-                    canPress = false;
-
-               toogleMenu =  chooseMenu((MenuOptions) msg);
-
-                }
-
-            }else {
-                pApplet.fill(200, 50, 50);
-                pApplet.rect(a, b * counter, c, d);
-            }
-            pApplet.fill(70,0,0,255);
-            pApplet.text(msg.name(), a + a/2,b * counter +b /2);
-
-            if(counter > values.size()){
-                counter = 1;
-            }
-
-        }
-    return toogleMenu;
-
+    public void chooseMenu(){
+        displayMenu(menuHashMap.get(menuType));
     }
 
-    public Menu changeMenu(Menu menu){
-
-        this.menu = menu;
-
-        return menu;
-    }
-
-    public boolean chooseMenu(MenuOptions value){
-
-
-        switch (value){
-
+    public void changeMenu(MenuOptions option){
+    System.out.println(option);
+        switch(option) {
             case Spiel_Starten:
-                System.out.println("Starten");
-                toogleMenu = false;
-
-                return toogleMenu;
+                break;
+            case Continue:
+                break;
+            case New_Game:
+                break;
             case Einstellungen:
-                System.out.println("Einstellungen");
-            setMenu(new OptionMenu(pApplet));
-            //menu = changeMenu(new OptionMenu(pApplet));
-            //menu = new OptionMenu(pApplet);
-                System.out.println(menu + " rückgabe");
+                if(!menuHashMap.containsKey("OptionMenu"))
+                    menuHashMap.put("OptionMenu", new OptionMenu());
+
+                    menuType = "OptionMenu";
+                break;
+            case Volume:
+                System.out.println("lautstärke");
+                break;
+            case WindowSize:
+                pApplet.frame.setSize(400,400);
                 break;
             case Quit:
+                if(!menuHashMap.containsKey("StartMenu"))
+                    menuHashMap.put("StartMenu", new StartMenu());
 
-              // if(this instanceof StartMenu){
-                //   System.out.println("menu");
-                //}else{
-                  // setMenu(new OptionMenu(pApplet));
-                   setMenu(new StartMenu(pApplet,true));
-                   System.out.println("kommt an");
-               //}
+                if(menuType == "StartMenu"){
+                    setToogleMenu1(false);
+                }else {
+                    menuType = "StartMenu";
+                }
 
                 break;
         }
 
-    return true;
     }
+
+    public void displayMenu(Menu tmpMenu) {
+        int counter = 1;
+        for (MenuOptions option : tmpMenu.menuOptionsArrayList) {
+
+            if ((posX < pApplet.mouseX && posX + boxSize > pApplet.mouseX) &&
+                    posY * counter < pApplet.mouseY && posY * counter + posY > pApplet.mouseY) {
+                // if(counter == 2) {
+                pApplet.fill(255, 255, 255, 255);
+
+                pApplet.rect(posX, posY * counter, boxSize, posY);
+
+                if(pApplet.mousePressed && canPress == true) {
+                    System.out.println(pApplet.mousePressed);
+                    canPress = false;
+                    changeMenu(option);
+                }
+
+            }
+
+
+
+        else {
+            pApplet.fill(200, 50, 50);
+            pApplet.rect(posX, posY * counter, boxSize, posY);
+        }
+        pApplet.fill(70,0,0,255);
+        pApplet.text(option.name(), posX + posX/2,posY * counter +posY /2);
+        counter++;
+    }
+        }
 
 }
