@@ -20,6 +20,7 @@ public class Enemy {
     int wave = 1;
     int life = 3 + wave;
     ProgrammStart programmStart;
+    int money;
 
 
     public Enemy(PImage img, float cordX, float cordY, int wave, ProgrammStart programmStart){

@@ -18,6 +18,7 @@ public class TowerSlot extends  Tower{
 
     public TowerSlot(PImage img, float posX , float posY, float range, int cost, long attackspeed, PApplet pApplet, Map<String, PImage> imageMap){
         super(img,posX,posY,range,cost, attackspeed, pApplet, imageMap);
+        canShoot = false;
     }
 
 

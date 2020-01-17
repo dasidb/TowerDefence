@@ -22,6 +22,8 @@ public class Tower {
     public Date lastdate;
     public long lastAttack = 0;
     Map<String,PImage> imageMap;
+    boolean canShoot;
+
 
 
 
@@ -69,17 +71,18 @@ public class Tower {
 
     }
     public void shoot(Enemy enemy){
-        long time = System.currentTimeMillis();
+        if(canShoot) {
+            long time = System.currentTimeMillis();
 
-        double ergebnis = Math.sqrt(Math.pow((this.posX - enemy.getCordX()),2) + Math.pow((this.posY- enemy.getCordY()),2));
-        if(time > attackspeed + lastAttack &&ergebnis <= range){
-            this.img = imageMap.get("tower_red_t1.png");
-            System.out.println(enemy.getLife());
-            enemy.setLife(enemy.getLife() - 1 );
-            lastAttack = time;
+            double ergebnis = Math.sqrt(Math.pow((this.posX - enemy.getCordX()), 2) + Math.pow((this.posY - enemy.getCordY()), 2));
+            if (time > attackspeed + lastAttack && ergebnis <= range) {
+                this.img = imageMap.get("tower_red_t1.png");
+                System.out.println(enemy.getLife());
+                enemy.setLife(enemy.getLife() - dmg);
+                lastAttack = time;
 
+            }
         }
-
     }
 
     public void draw(Map<String, Tower> towerHashMap){

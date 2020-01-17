@@ -168,7 +168,7 @@ public class ProgrammStart extends PApplet {
 
     public void loadEnemys(int waveCount){
         enemyArrayList = new ArrayList<>();
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 5; i++) {
             enemy = new Enemy(destination, 0 + (-i * 90), 0,12, this);
             enemyArrayList.add(enemy);
 
