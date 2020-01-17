@@ -1,4 +1,8 @@
+import processing.core.PApplet;
 import processing.core.PImage;
+
+import java.awt.print.Paper;
+import java.util.Map;
 
 public class TowerSlot extends  Tower{
     PImage img;
@@ -10,6 +14,10 @@ public class TowerSlot extends  Tower{
         this.img = img;
         this.posX = posX;
         this.posY = posY;
+    }
+
+    public TowerSlot(PImage img, float posX , float posY, float range, int cost, long attackspeed, PApplet pApplet, Map<String, PImage> imageMap){
+        super(img,posX,posY,range,cost, attackspeed, pApplet, imageMap);
     }
 
 

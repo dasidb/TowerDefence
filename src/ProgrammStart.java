@@ -16,8 +16,14 @@ public class ProgrammStart extends PApplet {
     PImage destination;
     PImage towerSlotImg;
     PImage stdTileImg;
+    PImage tower_red_t1;
+    PImage tower_red_t2;
+    PImage tower_red_t3;
+    PImage tower_green_t1;
+    PImage tower_green_t2;
+    PImage tower_green_t3;
     Enemy enemy;
-    TowerSlot towerSlot;
+    Tower towerSlot;
     Menu menu;
     String assetPath = "\\Assets\\";
     boolean toogleMenu = true;
@@ -25,6 +31,7 @@ public class ProgrammStart extends PApplet {
     boolean canPress = true;
     int wave = 1;
     int life = 200;
+    Map<String, PImage> imageMap;
 
     public int getLife() {
         return life;
@@ -55,6 +62,7 @@ public class ProgrammStart extends PApplet {
 
         loadAssets();
         loadObjects();
+
     testArrayList = new ArrayList<>();
 
     testArrayList.add(MenuOptions.Spiel_Starten);
@@ -100,11 +108,17 @@ public class ProgrammStart extends PApplet {
 
     }
 
+
     public void loadAssets() {
+
+
         enemyImage = loadImage(assetPath + "Enemy.png");
         mapBackground = loadImage(assetPath + "testmap1.png");
-        towerSlotImg = loadImage(assetPath + "stdTowerSlot.png");
         destination = createImage(enemyImage.width, enemyImage.height, ARGB);
+
+        towerAssets();
+
+
 
         enemyImage.loadPixels();
         destination.loadPixels();
@@ -123,12 +137,39 @@ public class ProgrammStart extends PApplet {
         }
         destination.updatePixels();
 
+
+        imagesIntoMap();
+    }
+
+    public void imagesIntoMap(){
+        imageMap = new HashMap<>(){{
+            put("Enemy.png",enemyImage);
+            put("testmap1.png",mapBackground);
+            put("stdTowerSlot.png",towerSlotImg);
+            put("tower_red_t1.png",tower_red_t1);
+            put("tower_red_t2.png",tower_red_t2);
+            put("tower_red_t3.png",tower_red_t3);
+            put("tower_green_t1.png",tower_green_t1);
+            put("tower_green_t2.png",tower_green_t2);
+            put("tower_green_t3.png",tower_green_t3);
+        }};
+    }
+
+    public void towerAssets(){
+
+        towerSlotImg = loadImage(assetPath + "stdTowerSlot.png");
+        tower_red_t1 =  loadImage(assetPath + "tower_red_t1.png");
+        tower_red_t2 =  loadImage(assetPath + "tower_red_t2.png");
+        tower_red_t3 =  loadImage(assetPath + "tower_red_t3.png");
+        tower_green_t1 =  loadImage(assetPath + "tower_green_t1.png");
+        tower_green_t2 =  loadImage(assetPath + "tower_green_t2.png");
+        tower_green_t3 = loadImage(assetPath + "tower_green_t3.png");
     }
 
     public void loadEnemys(int waveCount){
         enemyArrayList = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            enemy = new Enemy(destination, 0 + (-i * 90), 0,waveCount, this);
+        for (int i = 0; i < 1; i++) {
+            enemy = new Enemy(destination, 0 + (-i * 90), 0,12, this);
             enemyArrayList.add(enemy);
 
         }
@@ -137,7 +178,7 @@ public class ProgrammStart extends PApplet {
     public void loadObjects() {
 
         for (int i = 0; i < 3; i++) {
-            towerSlot = new TowerSlot(towerSlotImg, 240* i, 100);
+            towerSlot = new TowerSlot(imageMap.get("stdTowerSlot.png"), 240* i, 100,300,2, 1000, this, imageMap);
             towerHashMap.put("slot" + i, towerSlot);
         }
 
@@ -156,19 +197,27 @@ public class ProgrammStart extends PApplet {
         }
     }
 
+    public void drawTower(){
+        towerSlot.draw(towerHashMap);
+
+    }
+
     public void drawEnemy() {
+        ArrayList<Enemy> removeEnemy = new ArrayList<>();
         for (Enemy enemy : enemyArrayList) {
-            if(enemy.life != 0 )
-            image(enemy.getImg(), enemy.getCordX(), enemy.getCordY());
+            if (enemy.life > 0)
+                image(enemy.getImg(), enemy.getCordX(), enemy.getCordY());
+            else {
+                removeEnemy.add(enemy);
+            }
         }
+        for (Enemy deleteEnemy : removeEnemy) {
+            enemyArrayList.remove(deleteEnemy);
+        }
+
 
         //towerHashMap.forEach((key,value) -> image(value.img,value.posX,value.posY));
-        for (Map.Entry<String, Tower> entry : towerHashMap.entrySet()) {
 
-
-
-            image(entry.getValue().img, entry.getValue().posX, entry.getValue().posY);
-        }
 
     }
 
@@ -211,9 +260,24 @@ public class ProgrammStart extends PApplet {
         drawEnemy();
         enemyMovements();
 
+
     }
 
     public void towerMain(){
+        drawTower();
         checkCollisions();
+        towerShoot();
+
+
+    }
+
+
+    public void towerShoot(){
+        for(Map.Entry<String, Tower> tower : towerHashMap.entrySet()){
+            for(Enemy enemy : enemyArrayList){
+
+                tower.getValue().shoot(enemy);
+            }
+        }
     }
 }

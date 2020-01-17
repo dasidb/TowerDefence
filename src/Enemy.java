@@ -34,6 +34,17 @@ public class Enemy {
 
     }
 
+    public void setLife(int life){
+        if(life <0){
+            this.life = 0;
+        }
+        this.life = life;
+    }
+
+    public int getLife(){
+        return this.life;
+    }
+
     public PImage getImg() {
         return img;
     }
@@ -114,7 +125,14 @@ public class Enemy {
 
 
         }
+
+
     }
+
+    public void dead(){
+        this.img = null;
+    }
+
     public void moveRight(){
         this.setCordX( this.getCordX() + 5);
     }
