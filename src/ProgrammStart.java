@@ -142,17 +142,18 @@ public class ProgrammStart extends PApplet {
     }
 
     public void imagesIntoMap(){
-        imageMap = new HashMap<>(){{
-            put("Enemy.png",enemyImage);
-            put("testmap1.png",mapBackground);
-            put("stdTowerSlot.png",towerSlotImg);
-            put("tower_red_t1.png",tower_red_t1);
-            put("tower_red_t2.png",tower_red_t2);
-            put("tower_red_t3.png",tower_red_t3);
-            put("tower_green_t1.png",tower_green_t1);
-            put("tower_green_t2.png",tower_green_t2);
-            put("tower_green_t3.png",tower_green_t3);
-        }};
+        imageMap = Map.of(
+                // TODO: 1/19/2020 tower images nach zahlen bennenen für lvl ups ist besser auszuwählen
+            "Enemy.png",enemyImage,
+            "testmap1.png",mapBackground,
+            "stdTowerSlot.png",towerSlotImg,
+            "tower_red_t1.png",tower_red_t1,
+            "tower_red_t2.png",tower_red_t2,
+            "tower_red_t3.png",tower_red_t3,
+            "tower_green_t1.png",tower_green_t1,
+            "tower_green_t2.png",tower_green_t2,
+            "tower_green_t3.png",tower_green_t3);
+
     }
 
     public void towerAssets(){
@@ -187,6 +188,7 @@ public class ProgrammStart extends PApplet {
     public void mouseReleased(){
         if(toogleMenu) {
             menu.setCanPress(true);
+            canPress = true;
         }
     }
 
@@ -227,12 +229,14 @@ public class ProgrammStart extends PApplet {
 // checks collision with the tower/towerslots
     public void checkCollisionTower() {
         for (Map.Entry<String, Tower> entry : towerHashMap.entrySet()) {
-            if((mouseX - entry.getValue().posX < 180 || mouseX - entry.getValue().posX < -50 )&&
-                    (mouseY - entry.getValue().posY < 85 || mouseY - entry.getValue().posY < -50) && mousePressed
-            ) {
+            if((mouseX > entry.getValue().posX && mouseX < entry.getValue().posX + entry.getValue().img.width && mouseY > entry.getValue().posY && mouseY < entry.getValue().posY + entry.getValue().img.height && mousePressed && canPress
+            )) {
+                canPress = false;
 
+                entry.getValue().setSelected(true);
                 entry.getValue().collisionCheck(entry.getValue(), mouseX, mouseY);
             }
+
         }
     }
 

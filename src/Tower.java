@@ -23,9 +23,24 @@ public class Tower {
     public long lastAttack = 0;
     Map<String,PImage> imageMap;
     boolean canShoot;
+    boolean selected;
+    TowerUpgrades towerUpgrades = TowerUpgrades.Level0;
 
+    public TowerUpgrades getTowerUpgrades() {
+        return towerUpgrades;
+    }
 
+    public void setTowerUpgrades(TowerUpgrades towerUpgrades) {
+        this.towerUpgrades = towerUpgrades;
+    }
 
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 
     public Tower(PImage img, float posX, float posY) {
         this.img = img;
@@ -87,11 +102,28 @@ public class Tower {
 
     public void draw(Map<String, Tower> towerHashMap){
         for (Map.Entry<String, Tower> entry : towerHashMap.entrySet()) {
-
+          //  System.out.println(entry.getValue().selected);
 
 
             pApplet.image(entry.getValue().img, entry.getValue().posX, entry.getValue().posY);
+            if(entry.getValue().selected){
+                System.out.println("test");
+                drawBuildMenu();
+            }
         }
+
     }
-}
+
+    public void drawBuildMenu(){
+        int i = 3;
+        String tmp = "tower_red_t" + i + ".png";
+        System.out.println( this.getTowerUpgrades().getAction() + " das ist towerupgrades");
+        pApplet.image(imageMap.get(tmp),300,500);
+
+        }
+
+
+
+    }
+
 
