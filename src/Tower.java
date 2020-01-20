@@ -25,6 +25,18 @@ public class Tower {
     boolean canShoot;
     boolean selected;
     TowerUpgrades towerUpgrades = TowerUpgrades.Level0;
+    int towerlvl = 0;
+
+
+
+
+    public void setTowerLvl(int towerLvl){
+        this.towerlvl = towerLvl;
+    }
+
+    public int getTowerlvl(){
+        return towerlvl;
+    }
 
     public TowerUpgrades getTowerUpgrades() {
         return towerUpgrades;
@@ -40,6 +52,14 @@ public class Tower {
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public Tower(PImage img,float posX, float posY, Map<String, PImage> imageMap, PApplet pApplet){
+        this.img = img;
+        this.posX = posX;
+        this.posY = posY;
+        this.imageMap = imageMap;
+        this.pApplet = pApplet;
     }
 
     public Tower(PImage img, float posX, float posY) {
@@ -72,6 +92,7 @@ public class Tower {
     if(tower.posX < mouseX && tower.posX + tower.img.width > mouseX &&
             tower.posY < mouseY && tower.posY + tower.img.height > mouseY){
         System.out.println("yayayaya");
+
     }
 
         return true;
@@ -91,7 +112,7 @@ public class Tower {
 
             double ergebnis = Math.sqrt(Math.pow((this.posX - enemy.getCordX()), 2) + Math.pow((this.posY - enemy.getCordY()), 2));
             if (time > attackspeed + lastAttack && ergebnis <= range) {
-                this.img = imageMap.get("tower_red_t1.png");
+                this.img = imageMap.get("tower1");
                 System.out.println(enemy.getLife());
                 enemy.setLife(enemy.getLife() - dmg);
                 lastAttack = time;
@@ -100,25 +121,37 @@ public class Tower {
         }
     }
 
+    public void changeImage(Tower tower){
+        String tmp = "tower"+ (tower.getTowerlvl() + 1);
+    }
+
     public void draw(Map<String, Tower> towerHashMap){
         for (Map.Entry<String, Tower> entry : towerHashMap.entrySet()) {
           //  System.out.println(entry.getValue().selected);
 
+            if(entry.getKey() != "buySlot") {
+                pApplet.image(entry.getValue().img, entry.getValue().posX, entry.getValue().posY);
+            }
 
-            pApplet.image(entry.getValue().img, entry.getValue().posX, entry.getValue().posY);
+
             if(entry.getValue().selected){
-                System.out.println("test");
-                drawBuildMenu();
+                if(entry.getKey() != "buySlot") {
+                    towerHashMap.get("buySlot").setTowerLvl(entry.getValue().towerlvl + 1);
+                }
+                drawBuildMenu(towerHashMap.get("buySlot"));
+                //entry.getValue().setSelected(false);
             }
         }
 
     }
 
-    public void drawBuildMenu(){
-        int i = 3;
-        String tmp = "tower_red_t" + i + ".png";
-        System.out.println( this.getTowerUpgrades().getAction() + " das ist towerupgrades");
-        pApplet.image(imageMap.get(tmp),300,500);
+    public void drawBuildMenu(Tower tower){
+
+     //   String tmp1 =  Integer.toString(x + 1);
+       // String tmp = "tower" + tmp1;
+      //  System.out.println( this.getTowerUpgrades().getAction() + " das ist towerupgrades");
+        pApplet.image(imageMap.get("tower" + tower.towerlvl),300,500);
+
 
         }
 

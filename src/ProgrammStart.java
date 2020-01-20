@@ -32,6 +32,16 @@ public class ProgrammStart extends PApplet {
     int wave = 1;
     int life = 200;
     Map<String, PImage> imageMap;
+    boolean upgrade = false;
+    ArrayList<Tower> upgradeList = new ArrayList<>();
+
+    public boolean isUpgrade() {
+        return upgrade;
+    }
+
+    public void setUpgrade(boolean upgrade) {
+        this.upgrade = upgrade;
+    }
 
     public int getLife() {
         return life;
@@ -146,13 +156,13 @@ public class ProgrammStart extends PApplet {
                 // TODO: 1/19/2020 tower images nach zahlen bennenen für lvl ups ist besser auszuwählen
             "Enemy.png",enemyImage,
             "testmap1.png",mapBackground,
-            "stdTowerSlot.png",towerSlotImg,
-            "tower_red_t1.png",tower_red_t1,
-            "tower_red_t2.png",tower_red_t2,
-            "tower_red_t3.png",tower_red_t3,
-            "tower_green_t1.png",tower_green_t1,
-            "tower_green_t2.png",tower_green_t2,
-            "tower_green_t3.png",tower_green_t3);
+            "tower0",towerSlotImg,
+            "tower1",tower_red_t1,
+            "tower2",tower_red_t2,
+            "tower3",tower_red_t3,
+            "tower4",tower_green_t1,
+            "tower5",tower_green_t2,
+            "tower6",tower_green_t3);
 
     }
 
@@ -178,10 +188,13 @@ public class ProgrammStart extends PApplet {
     }
     public void loadObjects() {
 
-        for (int i = 0; i < 3; i++) {
-            towerSlot = new TowerSlot(imageMap.get("stdTowerSlot.png"), 240* i, 100,300,2, 1000, this, imageMap);
+        for (int i = 0; i < 1; i++) {
+            towerSlot = new TowerSlot(imageMap.get("tower0"), 240* i, 100,300,2, 1000, this, imageMap);
             towerHashMap.put("slot" + i, towerSlot);
         }
+        towerSlot = new TowerSlot(imageMap.get("tower0"), 300, 500, imageMap, this);
+        towerHashMap.put("buySlot", towerSlot);
+
 
     }
     @Override
@@ -229,14 +242,39 @@ public class ProgrammStart extends PApplet {
 // checks collision with the tower/towerslots
     public void checkCollisionTower() {
         for (Map.Entry<String, Tower> entry : towerHashMap.entrySet()) {
-            if((mouseX > entry.getValue().posX && mouseX < entry.getValue().posX + entry.getValue().img.width && mouseY > entry.getValue().posY && mouseY < entry.getValue().posY + entry.getValue().img.height && mousePressed && canPress
-            )) {
-                canPress = false;
+            if(mousePressed && canPress) {
 
-                entry.getValue().setSelected(true);
-                entry.getValue().collisionCheck(entry.getValue(), mouseX, mouseY);
+
+                if (mouseX > entry.getValue().posX && mouseX < entry.getValue().posX + entry.getValue().img.width && mouseY > entry.getValue().posY && mouseY < entry.getValue().posY + entry.getValue().img.height && mousePressed && canPress
+                ) {
+                    canPress = false;
+                    if(entry.getKey() == "buySlot"){
+                        System.out.println("blvllwdllawldaw");
+                        upgrade = true;
+                        break;
+                    }
+                    if(entry.getValue().isSelected() && !upgradeList.contains(entry.getValue())){
+                        upgradeList.add(entry.getValue());
+
+                    }
+                    entry.getValue().setSelected(true);
+
+                    entry.getValue().collisionCheck(entry.getValue(), mouseX, mouseY);
+                }
+                else {
+                    entry.getValue().setSelected(false);
+                    System.out.println("kommt an");
+                }
+
             }
 
+
+        }
+        if(!upgradeList.isEmpty()){
+            for(Tower tower : upgradeList){
+                tower.changeImage(tower);
+            }
+            upgradeList = new ArrayList<>();
         }
     }
 
