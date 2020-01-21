@@ -136,7 +136,7 @@ public class Tower {
         tower.setImg(imageMap.get(tmp));
     }
     public void changeStats(Tower tower){
-
+//
     }
 
     public void draw(Map<String, Tower> towerHashMap){
