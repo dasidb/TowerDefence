@@ -285,7 +285,7 @@ public class ProgrammStart extends PApplet {
 public void towerUpgrades(){
         System.out.println("ruft towerupgrades");
             for(Tower tower : upgradeList){
-                tower.changeImage(tower);
+                tower.upgrade(tower);
                 System.out.println("läuft liste");
             }
             upgradeList = new ArrayList<>();

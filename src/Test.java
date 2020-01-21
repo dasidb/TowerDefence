@@ -19,6 +19,11 @@ public class Test {
     }
 
     //    if((posX - enemyPosX)*2 + (posY - enemyPosY)*2 < range){
+    public void shootEnemy(ArrayList<Enemy> enemyList){
+        double ergebnis = Math.sqrt(Math.pow((this.x - x),2) + Math.pow((this.- y),2));
+        double ergebni2 = Math.sqrt(Math.pow((x - mx),2) + Math.pow((y- my),2));
+    }
+
 
     public void test(){
     if(ergebnis <= radius){

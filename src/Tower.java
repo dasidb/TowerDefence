@@ -127,10 +127,16 @@ public class Tower {
         }
     }
 
+    public void upgrade(Tower tower){
+        changeImage(tower);
+    }
     public void changeImage(Tower tower){
         String tmp = "tower"+ (tower.getTowerlvl() + 1);
         tower.setTowerLvl(tower.getTowerlvl() + 1);
         tower.setImg(imageMap.get(tmp));
+    }
+    public void changeStats(Tower tower){
+
     }
 
     public void draw(Map<String, Tower> towerHashMap){
