@@ -242,41 +242,54 @@ public class ProgrammStart extends PApplet {
 // checks collision with the tower/towerslots
     public void checkCollisionTower() {
         for (Map.Entry<String, Tower> entry : towerHashMap.entrySet()) {
-            if(mousePressed && canPress) {
+            if (mousePressed && canPress) {
 
 
                 if (mouseX > entry.getValue().posX && mouseX < entry.getValue().posX + entry.getValue().img.width && mouseY > entry.getValue().posY && mouseY < entry.getValue().posY + entry.getValue().img.height && mousePressed && canPress
+                        && entry.getKey() != "buySlot"
                 ) {
                     canPress = false;
-                    if(entry.getKey() == "buySlot"){
+               /*     if(entry.getKey() == "buySlot"){
                         System.out.println("blvllwdllawldaw");
                         upgrade = true;
                         break;
-                    }
-                    if(entry.getValue().isSelected() && !upgradeList.contains(entry.getValue())){
-                        upgradeList.add(entry.getValue());
+                    } */
 
-                    }
                     entry.getValue().setSelected(true);
 
                     entry.getValue().collisionCheck(entry.getValue(), mouseX, mouseY);
-                }
-                else {
+                    if (entry.getValue().isSelected() && !upgradeList.contains(entry.getValue())) {
+                        upgradeList.add(entry.getValue());
+
+                    }
+
+
+                } else if (mouseX > entry.getValue().posX && mouseX < entry.getValue().posX + entry.getValue().img.width && mouseY > entry.getValue().posY && mouseY < entry.getValue().posY + entry.getValue().img.height && mousePressed && canPress
+                        && entry.getKey() == "buySlot") {
+                    canPress = false;
+                    towerUpgrades();
+
+                } else {
                     entry.getValue().setSelected(false);
                     System.out.println("kommt an");
+                    //  if(!entry.getValue().isSelected() && upgradeList.contains(entry.getValue())){
+                    //    upgradeList.remove(entry.getValue());
+                    // }
                 }
-
             }
 
 
         }
-        if(!upgradeList.isEmpty()){
+    }
+
+public void towerUpgrades(){
+        System.out.println("ruft towerupgrades");
             for(Tower tower : upgradeList){
                 tower.changeImage(tower);
+                System.out.println("läuft liste");
             }
             upgradeList = new ArrayList<>();
         }
-    }
 
     public void keyPressed(){
        // if(keyCode == ESC){

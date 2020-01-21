@@ -28,7 +28,13 @@ public class Tower {
     int towerlvl = 0;
 
 
+    public PImage getImg() {
+        return img;
+    }
 
+    public void setImg(PImage img) {
+        this.img = img;
+    }
 
     public void setTowerLvl(int towerLvl){
         this.towerlvl = towerLvl;
@@ -123,6 +129,8 @@ public class Tower {
 
     public void changeImage(Tower tower){
         String tmp = "tower"+ (tower.getTowerlvl() + 1);
+        tower.setTowerLvl(tower.getTowerlvl() + 1);
+        tower.setImg(imageMap.get(tmp));
     }
 
     public void draw(Map<String, Tower> towerHashMap){
