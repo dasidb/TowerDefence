@@ -25,7 +25,7 @@ public class ProgrammStart extends PApplet {
     Enemy enemy;
     Tower towerSlot;
     Menu menu;
-    String assetPath = "\\Assets\\";
+    String assetPath = "Assets/";
     boolean toogleMenu = true;
     ArrayList<MenuOptions> testArrayList;
     boolean canPress = true;
