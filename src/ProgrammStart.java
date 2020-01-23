@@ -188,7 +188,7 @@ public class ProgrammStart extends PApplet {
     }
     public void loadObjects() {
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
             towerSlot = new TowerSlot(imageMap.get("tower0"), 240* i, 100,300,2, 1000, this, imageMap);
             towerHashMap.put("slot" + i, towerSlot);
         }
@@ -239,11 +239,13 @@ public class ProgrammStart extends PApplet {
     public void checkCollisions(){
         checkCollisionTower();
     }
+
+    // TODO: 1/23/2020 if you click towerslot 1 -> 2 -> 3 and click on 1 the other dissapear need to check why
 // checks collision with the tower/towerslots
     public void checkCollisionTower() {
         for (Map.Entry<String, Tower> entry : towerHashMap.entrySet()) {
             if (mousePressed && canPress) {
-
+            System.out.println(entry.getValue().selected);
 
                 if (mouseX > entry.getValue().posX && mouseX < entry.getValue().posX + entry.getValue().img.width && mouseY > entry.getValue().posY && mouseY < entry.getValue().posY + entry.getValue().img.height && mousePressed && canPress
                         && entry.getKey() != "buySlot"
@@ -255,7 +257,7 @@ public class ProgrammStart extends PApplet {
                         break;
                     } */
 
-                    entry.getValue().setSelected(true);
+                    entry.getValue().setSelected(!entry.getValue().selected);
 
                     entry.getValue().collisionCheck(entry.getValue(), mouseX, mouseY);
                     if (entry.getValue().isSelected() && !upgradeList.contains(entry.getValue())) {
@@ -269,12 +271,16 @@ public class ProgrammStart extends PApplet {
                     canPress = false;
                     towerUpgrades();
 
-                } else {
+                } else if (mouseX > towerHashMap.get("buySlot").posX && mouseX < towerHashMap.get("buySlot").posX + towerHashMap.get("buySlot").img.width && mouseY > towerHashMap.get("buySlot").posY && mouseY < towerHashMap.get("buySlot").posY + towerHashMap.get("buySlot").img.height){
+                    System.out.println("das ist buyslot");
+            }else {
                     entry.getValue().setSelected(false);
-                    System.out.println("kommt an");
-                    //  if(!entry.getValue().isSelected() && upgradeList.contains(entry.getValue())){
-                    //    upgradeList.remove(entry.getValue());
-                    // }
+
+
+                }
+                if(!entry.getValue().isSelected() && upgradeList.contains(entry.getValue())){
+                    upgradeList.remove(entry.getValue());
+                    System.out.println("wird aufgerufen");
                 }
             }
 
@@ -288,7 +294,7 @@ public void towerUpgrades(){
                 tower.upgrade(tower);
                 System.out.println("läuft liste");
             }
-            upgradeList = new ArrayList<>();
+            //upgradeList = new ArrayList<>();
         }
 
     public void keyPressed(){
