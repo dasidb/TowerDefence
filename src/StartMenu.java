@@ -17,10 +17,10 @@ public class StartMenu extends Menu {
     public void fillOptions(){
         super.fillOptions();
         menuOptionsArrayList.add(MenuOptions.New_Game);
-        menuOptionsArrayList.add(MenuOptions.Spiel_Starten);
+        menuOptionsArrayList.add(MenuOptions.Continue);
         menuOptionsArrayList.add(MenuOptions.Einstellungen);
         menuOptionsArrayList.add(MenuOptions.Quit);
-        menuOptionsArrayList.add(MenuOptions.Continue);
+
     }
 /*
     public ArrayList<MenuOptions> getOptionsArrayList() {

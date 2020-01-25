@@ -75,7 +75,7 @@ public class ProgrammStart extends PApplet {
 
     testArrayList = new ArrayList<>();
 
-    testArrayList.add(MenuOptions.Spiel_Starten);
+
         testArrayList.add(MenuOptions.Einstellungen);
         testArrayList.add(MenuOptions.Quit);
 
@@ -202,6 +202,9 @@ public class ProgrammStart extends PApplet {
         if(toogleMenu) {
             menu.setCanPress(true);
             canPress = true;
+            for (Map.Entry<String, Tower> entry : towerHashMap.entrySet()) {
+                entry.getValue().setCanPress(true);
+            }
         }
     }
 
@@ -244,13 +247,14 @@ public class ProgrammStart extends PApplet {
 // checks collision with the tower/towerslots
     public void checkCollisionTower() {
         for (Map.Entry<String, Tower> entry : towerHashMap.entrySet()) {
-            if (mousePressed && canPress) {
-            System.out.println(entry.getValue().selected);
 
-                if (mouseX > entry.getValue().posX && mouseX < entry.getValue().posX + entry.getValue().img.width && mouseY > entry.getValue().posY && mouseY < entry.getValue().posY + entry.getValue().img.height && mousePressed && canPress
+            if (mousePressed && entry.getValue().isCanPress()){
+            System.out.println(towerHashMap.get("slot1").selected);
+
+                if (mouseX > entry.getValue().posX && mouseX < entry.getValue().posX + entry.getValue().img.width && mouseY > entry.getValue().posY && mouseY < entry.getValue().posY + entry.getValue().img.height
                         && entry.getKey() != "buySlot"
                 ) {
-                    canPress = false;
+                    entry.getValue().setCanPress(false);
                /*     if(entry.getKey() == "buySlot"){
                         System.out.println("blvllwdllawldaw");
                         upgrade = true;
@@ -268,13 +272,14 @@ public class ProgrammStart extends PApplet {
 
                 } else if (mouseX > entry.getValue().posX && mouseX < entry.getValue().posX + entry.getValue().img.width && mouseY > entry.getValue().posY && mouseY < entry.getValue().posY + entry.getValue().img.height && mousePressed && canPress
                         && entry.getKey() == "buySlot") {
-                    canPress = false;
+                    entry.getValue().setCanPress(false);
                     towerUpgrades();
 
                 } else if (mouseX > towerHashMap.get("buySlot").posX && mouseX < towerHashMap.get("buySlot").posX + towerHashMap.get("buySlot").img.width && mouseY > towerHashMap.get("buySlot").posY && mouseY < towerHashMap.get("buySlot").posY + towerHashMap.get("buySlot").img.height){
                     System.out.println("das ist buyslot");
             }else {
                     entry.getValue().setSelected(false);
+                    System.out.println("kommt hier an " + entry.getKey());
 
 
                 }
@@ -286,7 +291,10 @@ public class ProgrammStart extends PApplet {
 
 
         }
-    }
+
+        }
+
+
 
 public void towerUpgrades(){
         System.out.println("ruft towerupgrades");

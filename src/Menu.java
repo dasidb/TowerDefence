@@ -56,11 +56,11 @@ public class Menu {
     public void changeMenu(MenuOptions option){
     System.out.println(option);
         switch(option) {
-            case Spiel_Starten:
-                break;
             case Continue:
+                setToogleMenu1(false);
                 break;
             case New_Game:
+                setToogleMenu1(false);
                 break;
             case Einstellungen:
                 if(!menuHashMap.containsKey("OptionMenu"))
@@ -79,7 +79,7 @@ public class Menu {
                     menuHashMap.put("StartMenu", new StartMenu());
 
                 if(menuType == "StartMenu"){
-                    setToogleMenu1(false);
+                    // TODO: 1/25/2020 should game be closed?
                 }else {
                     menuType = "StartMenu";
                 }

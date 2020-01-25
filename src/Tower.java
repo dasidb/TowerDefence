@@ -26,7 +26,15 @@ public class Tower {
     boolean selected;
     TowerUpgrades towerUpgrades = TowerUpgrades.Level0;
     int towerlvl = 0;
+    boolean canPress;
 
+    public boolean isCanPress() {
+        return canPress;
+    }
+
+    public void setCanPress(boolean canPress) {
+        this.canPress = canPress;
+    }
 
     public PImage getImg() {
         return img;
@@ -141,7 +149,7 @@ public class Tower {
 
     public void draw(Map<String, Tower> towerHashMap){
         for (Map.Entry<String, Tower> entry : towerHashMap.entrySet()) {
-          //  System.out.println(entry.getValue().selected);
+
 
             if(entry.getKey() != "buySlot") {
                 pApplet.image(entry.getValue().img, entry.getValue().posX, entry.getValue().posY);
